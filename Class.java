@@ -6,7 +6,8 @@ public class Class{
       int hp = 2;
       Random r = new Random();
       Scanner in = new Scanner(System.in);
-
+      System.out.print("Введите сложность игры (от 1 до 3): ");
+      int difficult = in.nextInt();
       System.out.println("Управление на wasd");
       
       String[][] area = {
@@ -39,21 +40,10 @@ public class Class{
       area_whith_all[xbm][ybm] = "BM"; area[xbm][ybm] = "?";
       area_whith_all[xc][yc] = "C"; area[xc][yc] = "?";
 
-
-      for(int i = 0; i < 5; i++){
-        System.out.println("+ - + - + - + - + - +");
-        for(int i2 = 0; i2 < 5; i2++){
-          System.out.print("| " + area[i][i2] + " ");
-        }
-        System.out.println("|");
-      }
-      System.out.println("+ - + - + - + - + - +");
-
-
-      Monster monster = new Monster(a, b, 1);
+      Monster monster = new Monster(a, b, 1, difficult);
       a = r.nextInt(200); 
       b = r.nextInt(200);
-      Monster big_monster = new Monster(a, b, 2);
+      Monster big_monster = new Monster(a, b, 2, difficult);
       Castle castle = new Castle();
 
       boolean start = true;
@@ -109,6 +99,7 @@ public class Class{
           hp -= big_monster.task();
           if(hp > 0){
             area_whith_all[xp][yp] = "O";
+            System.out.printf("Текущее здоровье: %d\n", hp);
           }
           else{
             start = false;
@@ -116,7 +107,12 @@ public class Class{
           }
         }
         else if(area_whith_all[xp][yp] == "C"){
-          castle.finish();
+          if(castle.mini_game() == 0){
+            System.out.println("Вы проиграли.");
+          }
+          else{
+            System.out.println("Вы прошли игру!!!");
+          }
           start = false;
         }
       }
